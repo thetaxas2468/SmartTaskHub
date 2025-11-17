@@ -70,9 +70,9 @@
     
     <div class="stats-grid">
       <app-stat-card icon="📅" [value]="habitStats.totalDaysTracked" label="Days Tracked"></app-stat-card>
-      <app-stat-card icon="💧" [value]="habitStats.averageWaterIntake.toFixed(1) + 'L'" label="Avg Water Intake"></app-stat-card>
-      <app-stat-card icon="🏃" [value]="habitStats.averageExercise.toFixed(0) + 'min'" label="Avg Exercise"></app-stat-card>
-      <app-stat-card icon="📚" [value]="habitStats.averageReading.toFixed(0) + 'min'" label="Avg Reading"></app-stat-card>
+      <app-stat-card icon="💧" [value]="habitStats.averageWaterIntake | formatNumber:1:'L'" label="Avg Water Intake"></app-stat-card>
+      <app-stat-card icon="🏃" [value]="habitStats.averageExercise | formatNumber:0:'min'" label="Avg Exercise"></app-stat-card>
+      <app-stat-card icon="📚" [value]="habitStats.averageReading | formatNumber:0:'min'" label="Avg Reading"></app-stat-card>
     </div>
 
     <!-- Monthly Averages -->
@@ -81,20 +81,20 @@
       <h3>Monthly Averages</h3>
       <div class="monthly-grid">
         <!-- Angular v17+: @for (month of habitStats.monthlyAverages; track month.month) { ... } -->
-        <div *ngFor="let month of habitStats.monthlyAverages" class="monthly-card">
+        <div *ngFor="let month of habitStats.monthlyAverages" class="monthly-card" appHoverEffect="lift">
           <div class="monthly-header">{{ month.month }}</div>
           <div class="monthly-stats">
             <div class="monthly-stat">
               <span class="monthly-label">💧 Water:</span>
-              <span class="monthly-value">{{ month.waterIntake.toFixed(1) }}L</span>
+              <span class="monthly-value">{{ month.waterIntake | formatNumber:1:'L' }}</span>
             </div>
             <div class="monthly-stat">
               <span class="monthly-label">🏃 Exercise:</span>
-              <span class="monthly-value">{{ month.exercise.toFixed(0) }}min</span>
+              <span class="monthly-value">{{ month.exercise | formatNumber:0:'min' }}</span>
             </div>
             <div class="monthly-stat">
               <span class="monthly-label">📚 Reading:</span>
-              <span class="monthly-value">{{ month.reading.toFixed(0) }}min</span>
+              <span class="monthly-value">{{ month.reading | formatNumber:0:'min' }}</span>
             </div>
           </div>
         </div>

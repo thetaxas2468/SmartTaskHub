@@ -7,11 +7,24 @@ import { Task } from '../../models/task.model';
 import { HabitEntry } from '../../models/habit.model';
 import { StatCardComponent } from '../../components/stat-card/stat-card.component';
 import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
+import { FormatNumberPipe } from '../../pipes/format-number.pipe';
+import { DateFormatPipe } from '../../pipes/date-format.pipe';
+import { PriorityColorPipe } from '../../pipes/priority-color.pipe';
+import { HoverEffectDirective } from '../../directives/hover-effect.directive';
 
 @Component({
   selector: 'app-analytics',
   standalone: true,
-  imports: [CommonModule, RouterLink, StatCardComponent, ProgressBarComponent],
+  imports: [
+    CommonModule, 
+    RouterLink, 
+    StatCardComponent, 
+    ProgressBarComponent,
+    FormatNumberPipe,
+    // DateFormatPipe,
+    // PriorityColorPipe,
+    HoverEffectDirective
+  ],
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.css']
 })

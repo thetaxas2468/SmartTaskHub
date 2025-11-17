@@ -9,6 +9,12 @@ import { StatCardComponent } from '../../components/stat-card/stat-card.componen
 import { CardComponent } from '../../components/card/card.component';
 import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
 import { ButtonComponent } from '../../components/button/button.component';
+import { FormatNumberPipe } from '../../pipes/format-number.pipe';
+import { DateFormatPipe } from '../../pipes/date-format.pipe';
+import { PriorityColorPipe } from '../../pipes/priority-color.pipe';
+import { ClickOutsideDirective } from '../../directives/click-outside.directive';
+import { AutoFocusDirective } from '../../directives/auto-focus.directive';
+import { HoverEffectDirective } from '../../directives/hover-effect.directive';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,7 +26,13 @@ import { ButtonComponent } from '../../components/button/button.component';
     StatCardComponent,
     CardComponent,
     ProgressBarComponent,
-    ButtonComponent
+    ButtonComponent,
+    FormatNumberPipe,
+    DateFormatPipe,
+    PriorityColorPipe,
+    ClickOutsideDirective,
+    AutoFocusDirective,
+    HoverEffectDirective
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
