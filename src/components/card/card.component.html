@@ -1,0 +1,13 @@
+<div class="card">
+  <!-- Angular v17+: @if (showHeader) { ... } -->
+  <div *ngIf="showHeader" class="card-header">
+    <!-- Angular v17+: @if (title) { ... } -->
+    <h2 *ngIf="title">{{ title }}</h2>
+    <!-- Angular v17+: @if (badge !== null) { ... } -->
+    <span *ngIf="badge !== null" class="card-badge">{{ badge }}</span>
+  </div>
+  <div class="card-body">
+    <ng-content></ng-content>
+  </div>
+</div>
+

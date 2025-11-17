@@ -1,0 +1,102 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="gradient-text">SmartTaskHub</span>
+      </h1>
+      <p class="hero-subtitle">
+        Your all-in-one productivity dashboard for tasks, habits, and notes.
+        Stay organized, build better habits, and achieve your goals.
+      </p>
+      <div class="hero-actions">
+        <a routerLink="/dashboard">
+          <app-button type="primary" size="large">Get Started <span class="arrow">→</span></app-button>
+        </a>
+        <a routerLink="/dashboard">
+          <app-button type="secondary">View Demo</app-button>
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="floating-card card-1">
+        <div class="card-header">
+          <span class="card-dot"></span>
+          <span class="card-dot"></span>
+          <span class="card-dot"></span>
+        </div>
+        <div class="card-content">
+          <div class="task-item">
+            <input type="checkbox" checked>
+            <span>Complete project proposal</span>
+          </div>
+          <div class="task-item">
+            <input type="checkbox">
+            <span>Review team feedback</span>
+          </div>
+        </div>
+      </div>
+      <div class="floating-card card-2">
+        <div class="card-header">
+          <span class="habit-title">Daily Habits</span>
+        </div>
+        <div class="habit-progress">
+          <div class="habit-item">
+            <span>💧 Water</span>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 80%"></div>
+            </div>
+          </div>
+          <div class="habit-item">
+            <span>🏃 Exercise</span>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 60%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="section-header">
+      <h2>Everything You Need to Stay Productive</h2>
+      <p>Powerful features designed to help you manage your life better</p>
+    </div>
+    <div class="features-grid">
+      <!-- Angular v17+: @for (feature of features; track feature.title) { ... } -->
+      <div *ngFor="let feature of features" class="feature-card" [routerLink]="feature.route">
+        <div class="feature-icon">{{ feature.icon }}</div>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
+        <span class="feature-link">Learn more →</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <!-- Angular v17+: @for (stat of stats; track stat.label) { ... } -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <app-stat-card
+        *ngFor="let stat of stats"
+        [value]="stat.value"
+        [label]="stat.label"
+        [color]="stat.color">
+      </app-stat-card>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Ready to Boost Your Productivity?</h2>
+      <p>Join thousands of users who are already achieving their goals with SmartTaskHub</p>
+      <a routerLink="/dashboard">
+        <app-button type="primary" size="large">Start Your Journey <span class="arrow">→</span></app-button>
+      </a>
+    </div>
+  </section>
+</div>
+

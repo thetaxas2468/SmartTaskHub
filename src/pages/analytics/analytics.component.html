@@ -1,0 +1,110 @@
+<div class="analytics-container">
+  <header class="analytics-header">
+    <div>
+      <h1>Analytics & Insights</h1>
+      <p class="analytics-subtitle">Detailed statistics about your productivity and habits</p>
+    </div>
+    <div class="header-actions">
+      <a routerLink="/" class="nav-link">← Home</a>
+      <a routerLink="/dashboard" class="nav-link">Dashboard</a>
+    </div>
+  </header>
+
+  <!-- Task Analytics Section -->
+  <section class="analytics-section">
+    <h2 class="section-title">📋 Task Analytics</h2>
+    
+    <div class="stats-grid">
+      <app-stat-card icon="📊" [value]="taskStats.total" label="Total Tasks"></app-stat-card>
+      <app-stat-card icon="✅" [value]="taskStats.completed" label="Completed"></app-stat-card>
+      <app-stat-card icon="🔄" [value]="taskStats.inProgress" label="In Progress"></app-stat-card>
+      <app-stat-card icon="📈" [value]="getCompletionPercentage(taskStats.completed, taskStats.total) + '%'" label="Completion Rate"></app-stat-card>
+    </div>
+
+    <!-- Priority Breakdown -->
+    <div class="priority-breakdown">
+      <h3>Priority Breakdown</h3>
+      <div class="priority-grid">
+        <div class="priority-card priority-high">
+          <div class="priority-header">
+            <span class="priority-label">High Priority</span>
+            <span class="priority-count">{{ taskStats.highPriority.completed }}/{{ taskStats.highPriority.total }}</span>
+          </div>
+          <app-progress-bar [progress]="getCompletionPercentage(taskStats.highPriority.completed, taskStats.highPriority.total)"></app-progress-bar>
+          <div class="priority-stats">
+            <span>Completed: {{ taskStats.highPriority.completed }}</span>
+            <span>Not Completed: {{ taskStats.highPriority.total - taskStats.highPriority.completed }}</span>
+          </div>
+        </div>
+
+        <div class="priority-card priority-medium">
+          <div class="priority-header">
+            <span class="priority-label">Medium Priority</span>
+            <span class="priority-count">{{ taskStats.mediumPriority.completed }}/{{ taskStats.mediumPriority.total }}</span>
+          </div>
+          <app-progress-bar [progress]="getCompletionPercentage(taskStats.mediumPriority.completed, taskStats.mediumPriority.total)"></app-progress-bar>
+          <div class="priority-stats">
+            <span>Completed: {{ taskStats.mediumPriority.completed }}</span>
+            <span>Not Completed: {{ taskStats.mediumPriority.total - taskStats.mediumPriority.completed }}</span>
+          </div>
+        </div>
+
+        <div class="priority-card priority-low">
+          <div class="priority-header">
+            <span class="priority-label">Low Priority</span>
+            <span class="priority-count">{{ taskStats.lowPriority.completed }}/{{ taskStats.lowPriority.total }}</span>
+          </div>
+          <app-progress-bar [progress]="getCompletionPercentage(taskStats.lowPriority.completed, taskStats.lowPriority.total)"></app-progress-bar>
+          <div class="priority-stats">
+            <span>Completed: {{ taskStats.lowPriority.completed }}</span>
+            <span>Not Completed: {{ taskStats.lowPriority.total - taskStats.lowPriority.completed }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Habit Analytics Section -->
+  <section class="analytics-section">
+    <h2 class="section-title">✅ Habit Analytics</h2>
+    
+    <div class="stats-grid">
+      <app-stat-card icon="📅" [value]="habitStats.totalDaysTracked" label="Days Tracked"></app-stat-card>
+      <app-stat-card icon="💧" [value]="habitStats.averageWaterIntake.toFixed(1) + 'L'" label="Avg Water Intake"></app-stat-card>
+      <app-stat-card icon="🏃" [value]="habitStats.averageExercise.toFixed(0) + 'min'" label="Avg Exercise"></app-stat-card>
+      <app-stat-card icon="📚" [value]="habitStats.averageReading.toFixed(0) + 'min'" label="Avg Reading"></app-stat-card>
+    </div>
+
+    <!-- Monthly Averages -->
+    <!-- Angular v17+: @if (habitStats.monthlyAverages.length > 0) { ... } -->
+    <div class="monthly-averages" *ngIf="habitStats.monthlyAverages.length > 0">
+      <h3>Monthly Averages</h3>
+      <div class="monthly-grid">
+        <!-- Angular v17+: @for (month of habitStats.monthlyAverages; track month.month) { ... } -->
+        <div *ngFor="let month of habitStats.monthlyAverages" class="monthly-card">
+          <div class="monthly-header">{{ month.month }}</div>
+          <div class="monthly-stats">
+            <div class="monthly-stat">
+              <span class="monthly-label">💧 Water:</span>
+              <span class="monthly-value">{{ month.waterIntake.toFixed(1) }}L</span>
+            </div>
+            <div class="monthly-stat">
+              <span class="monthly-label">🏃 Exercise:</span>
+              <span class="monthly-value">{{ month.exercise.toFixed(0) }}min</span>
+            </div>
+            <div class="monthly-stat">
+              <span class="monthly-label">📚 Reading:</span>
+              <span class="monthly-value">{{ month.reading.toFixed(0) }}min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Angular v17+: @if (habitStats.monthlyAverages.length === 0) { ... } -->
+    <div *ngIf="habitStats.monthlyAverages.length === 0" class="empty-state">
+      <p>No habit data available. Start tracking your habits to see analytics!</p>
+    </div>
+  </section>
+</div>
+

@@ -1,0 +1,8 @@
+<div class="progress-bar-container">
+  <!-- Angular v17+: @if (showLabel && label) { ... } -->
+  <div *ngIf="showLabel && label" class="progress-label">{{ label }}</div>
+  <div class="progress-bar" [style.height]="height">
+    <div class="progress-fill" [style.width.%]="progress"></div>
+  </div>
+</div>
+
