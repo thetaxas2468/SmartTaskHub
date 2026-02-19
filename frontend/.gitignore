@@ -19,7 +19,6 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
-.vs/
 
 # Visual Studio Code
 .vscode/*
@@ -41,14 +40,3 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-
-# Monorepo folders
-frontend/node_modules/
-frontend/dist/
-frontend/.angular/cache/
-
-backend/**/bin/
-backend/**/obj/
-
-# Secrets (keep connection strings out of git)
-backend/**/appsettings.Development.json

@@ -1,0 +1,182 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <div>
+      <h1>Dashboard</h1>
+      <p class="dashboard-subtitle">Welcome back! Here's your productivity overview.</p>
+    </div>
+    <a routerLink="/" class="nav-link">← Back to Home</a>
+  </header>
+
+  <!-- Stats Grid -->
+  <!-- Angular v17+: @for (stat of stats; track stat.label) { ... } -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <app-stat-card
+        *ngFor="let stat of stats"
+        [icon]="stat.icon"
+        [value]="stat.value"
+        [label]="stat.label"
+        [color]="stat.color">
+      </app-stat-card>
+    </div>
+  </section>
+
+  <!-- Main Content Grid -->
+  <section class="main-content">
+    <!-- Recent Tasks -->
+    <app-card title="Recent Tasks" [badge]="inProgressTasks.length">
+      <!-- Angular v17+: @if (inProgressTasks.length === 0) { ... } -->
+      <div *ngIf="inProgressTasks.length === 0" class="empty-state">
+        <p>No tasks in progress. Add a new task to get started!</p>
+      </div>
+      <!-- Angular v17+: @for (task of inProgressTasks; track task.id) { ... } -->
+      <div *ngFor="let task of inProgressTasks" class="task-item">
+        <input type="checkbox" [checked]="false" (change)="onTaskToggle(task)">
+        <span class="task-title">{{ task.title }}</span>
+        <span class="task-priority" [class]="'priority-' + task.priority" [style.color]="task.priority | priorityColor">
+          {{ task.priority }}
+        </span>
+      </div>
+    </app-card>
+
+    <!-- Habits Progress -->
+    <app-card title="Daily Habits">
+      <div class="card-header-custom">
+        <div class="date-selector">
+          <label for="habit-date">Date:</label>
+          <input 
+            type="date" 
+            id="habit-date" 
+            [(ngModel)]="selectedDate" 
+            (change)="onDateChange()"
+            class="date-input"
+          />
+        </div>
+      </div>
+      <!-- Angular v17+: @for (habit of habits; track habit.name) { ... } -->
+        <div *ngFor="let habit of habits" class="habit-item" appHoverEffect="lift">
+          <div class="habit-header">
+            <span class="habit-name">{{ habit.name }}</span>
+            <span class="habit-progress-text">{{ habit.current | formatNumber:1 }}/{{ habit.target | formatNumber:0 }}</span>
+          </div>
+          <app-progress-bar [progress]="habit.progress"></app-progress-bar>
+        </div>
+    </app-card>
+  </section>
+
+  <!-- Quick Actions -->
+  <section class="quick-actions">
+    <h2>Quick Actions</h2>
+    <div class="actions-grid">
+      <!-- Angular v17+: @for (action of quickActions; track action.action) { ... } -->
+      <button *ngFor="let action of quickActions" class="action-btn" (click)="handleAction(action.action)" appHoverEffect="scale">
+        <span class="action-icon">{{ action.icon }}</span>
+        <span class="action-label">{{ action.label }}</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Add Task Modal -->
+  <!-- Angular v17+: @if (showAddTaskModal) { ... } -->
+  <div *ngIf="showAddTaskModal" class="modal-overlay" appClickOutside (appClickOutside)="closeAddTaskModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()" appHoverEffect="glow">
+      <div class="modal-header">
+        <h2>Add New Task</h2>
+        <button class="modal-close" (click)="closeAddTaskModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="task-title">Task Title</label>
+          <input 
+            type="text" 
+            id="task-title" 
+            [(ngModel)]="newTask.title" 
+            placeholder="Enter task title..."
+            class="form-input"
+            appAutoFocus
+          />
+        </div>
+        <div class="form-group">
+          <label for="task-priority">Priority</label>
+          <select id="task-priority" [(ngModel)]="newTask.priority" class="form-select">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <app-button type="secondary" (clicked)="closeAddTaskModal()">Cancel</app-button>
+        <app-button type="primary" (clicked)="saveTask()">Add Task</app-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Track Habit Modal -->
+  <!-- Angular v17+: @if (showTrackHabitModal) { ... } -->
+  <div *ngIf="showTrackHabitModal" class="modal-overlay" appClickOutside (appClickOutside)="closeTrackHabitModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()" appHoverEffect="glow">
+      <div class="modal-header">
+        <h2>Track Today's Habits</h2>
+        <button class="modal-close" (click)="closeTrackHabitModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-date">Date: {{ getTodayDateString() | dateFormat:'long' }}</p>
+        <div class="form-group">
+          <label for="water-intake">💧 Water Intake (liters) <span class="max-label">Max: {{ habitTargets.waterIntake }}L</span></label>
+          <input 
+            type="number" 
+            id="water-intake" 
+            [(ngModel)]="newHabit.waterIntake" 
+            (blur)="validateHabitInput('waterIntake', newHabit.waterIntake)"
+            (input)="validateHabitInput('waterIntake', newHabit.waterIntake)"
+            min="0"
+            [max]="habitTargets.waterIntake"
+            step="0.1"
+            class="form-input"
+            [class.error]="habitErrors.waterIntake"
+          />
+          <!-- Angular v17+: @if (habitErrors.waterIntake) { ... } -->
+          <div *ngIf="habitErrors.waterIntake" class="error-message">{{ habitErrors.waterIntake }}</div>
+        </div>
+        <div class="form-group">
+          <label for="exercise">🏃 Exercise (minutes) <span class="max-label">Max: {{ habitTargets.exercise }}min</span></label>
+          <input 
+            type="number" 
+            id="exercise" 
+            [(ngModel)]="newHabit.exercise" 
+            (blur)="validateHabitInput('exercise', newHabit.exercise)"
+            (input)="validateHabitInput('exercise', newHabit.exercise)"
+            min="0"
+            [max]="habitTargets.exercise"
+            class="form-input"
+            [class.error]="habitErrors.exercise"
+          />
+          <!-- Angular v17+: @if (habitErrors.exercise) { ... } -->
+          <div *ngIf="habitErrors.exercise" class="error-message">{{ habitErrors.exercise }}</div>
+        </div>
+        <div class="form-group">
+          <label for="reading">📚 Reading (minutes) <span class="max-label">Max: {{ habitTargets.reading }}min</span></label>
+          <input 
+            type="number" 
+            id="reading" 
+            [(ngModel)]="newHabit.reading" 
+            (blur)="validateHabitInput('reading', newHabit.reading)"
+            (input)="validateHabitInput('reading', newHabit.reading)"
+            min="0"
+            [max]="habitTargets.reading"
+            class="form-input"
+            [class.error]="habitErrors.reading"
+          />
+          <!-- Angular v17+: @if (habitErrors.reading) { ... } -->
+          <div *ngIf="habitErrors.reading" class="error-message">{{ habitErrors.reading }}</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <app-button type="secondary" (clicked)="closeTrackHabitModal()">Cancel</app-button>
+        <app-button type="primary" [disabled]="!isHabitFormValid()" (clicked)="saveHabit()">Save Habits</app-button>
+      </div>
+    </div>
+  </div>
+</div>
+
