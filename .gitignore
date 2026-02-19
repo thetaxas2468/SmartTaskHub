@@ -1,0 +1,20 @@
+# Root ignores (monorepo)
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vs/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/cache/
+
+# Backend (.NET)
+backend/**/bin/
+backend/**/obj/
+
+# Secrets (keep connection strings out of git)
+backend/**/appsettings.Development.json
+
