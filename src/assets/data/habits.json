@@ -1,0 +1,17 @@
+{
+  "targets": {
+    "waterIntake": 8,
+    "exercise": 30,
+    "reading": 60
+  },
+  "entries": [
+    { "date": "2024-01-15", "waterIntake": 6.4, "exercise": 18, "reading": 27 },
+    { "date": "2024-01-16", "waterIntake": 7.2, "exercise": 25, "reading": 35 },
+    { "date": "2024-01-17", "waterIntake": 8.0, "exercise": 30, "reading": 45 },
+    { "date": "2024-01-18", "waterIntake": 5.8, "exercise": 20, "reading": 30 },
+    { "date": "2024-01-19", "waterIntake": 7.5, "exercise": 28, "reading": 40 },
+    { "date": "2024-01-20", "waterIntake": 6.0, "exercise": 15, "reading": 25 },
+    { "date": "2024-01-21", "waterIntake": 8.0, "exercise": 30, "reading": 50 }
+  ]
+}
+
